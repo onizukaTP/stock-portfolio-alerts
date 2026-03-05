@@ -17,37 +17,6 @@ This project demonstrates enterprise backend concepts such as:
 - Asynchronous messaging using RabbitMQ
 - Performance optimization using caching
 
-## Tech Stack
-
-### Backend
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-
-### Database
-- MySQL
-
-### Messaging
-- Kafka
-- RabbitMQ
-
-### Caching
-- Caffeine Cache
-
-### Security
-- JWT Authentication
-- BCrypt Password Encryption
-
-### Testing
-- JUnit
-- AssertJ
-
-### Monitoring
-- Spring Boot Actuator
-
-### Frontend (Future)
-- React
-
 ## Architecture
 
 The system follows a **Modular Monolith Architecture**.<br>
@@ -61,27 +30,6 @@ External integrations include:
 - Caffeine Cache
 
 This architecture keeps deployment simple while supporting event-driven workflows.
-
-## Package Structure
-com.bl.stockportfolioalerts
-
-auth<br>
-├── controller<br>
-├── service<br>
-├── repository<br>
-├── entity<br>
-├── dto<br>
-└── validation
-
-portfolio<br>
-stock<br>
-alert<br>
-messaging<br>
-notification<br>
-
-config<br>
-exception<br>
-audit
 
 ## Use Case Progress Tracker
 
@@ -142,24 +90,3 @@ POST /api/users/register
 }
 ```
 ---
-
-## 9️⃣ Concepts Used
-
-```markdown
-## Concepts Implemented
-
-- Java Functional Interfaces
-- Predicate-based validation
-- JPA Entity mapping
-- REST API design
-- BCrypt password encryption
-```
-## Upcoming Features
-
-- JWT Authentication
-- Portfolio Management
-- Stock Price Streaming
-- Alert Engine
-- Kafka Event Processing
-- RabbitMQ Notifications
-- Application Monitoring
