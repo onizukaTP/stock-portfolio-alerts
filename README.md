@@ -90,3 +90,26 @@ POST /api/users/register
 }
 ```
 ---
+
+# UC2 - JWT Authentication
+
+### Goal
+Authenticate registered users and generate a JWT token for stateless authorization.
+
+### Flow
+1. User submits login credentials. 
+2. Backend fetches user using Optional. 
+3. Password verified. 
+4. JWT token generated. 
+5. Token returned to the frontend.
+
+### API Endpoint
+POST /api/auth/login
+
+### Example Request
+```json
+{
+  "email": "user1@email.com",
+  "password": "StrongPass123"
+}
+```
