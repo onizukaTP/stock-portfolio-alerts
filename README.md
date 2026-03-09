@@ -33,23 +33,23 @@ This architecture keeps deployment simple while supporting event-driven workflow
 
 ## Use Case Progress Tracker
 
-| Use Case | Feature | Status |
-|--------|--------|--------|
+| Use Case | Feature | Status    |
+|--------|--------|-----------|
 | UC1 | User Registration | Completed |
-| UC2 | JWT Authentication | Pending |
-| UC3 | Portfolio Creation | Pending |
-| UC4 | Portfolio Retrieval | Pending |
-| UC5 | Update Portfolio | Pending |
-| UC6 | Delete Portfolio | Pending |
-| UC7 | Add Stock | Pending |
-| UC8 | Fetch Live Stock Price | Pending |
-| UC9 | Create Alert | Pending |
-| UC10 | Process Price Updates (Kafka) | Pending |
-| UC11 | Send Alert Notification | Pending |
-| UC12 | Health Check | Pending |
-| UC13 | Global Exception Handling | Pending |
-| UC14 | JUnit Testing | Pending |
-| UC15 | REST Resource URI Design | Pending |
+| UC2 | JWT Authentication | Completed |
+| UC3 | Portfolio Creation | Completed |
+| UC4 | Portfolio Retrieval | Pending   |
+| UC5 | Update Portfolio | Pending   |
+| UC6 | Delete Portfolio | Pending   |
+| UC7 | Add Stock | Pending   |
+| UC8 | Fetch Live Stock Price | Pending   |
+| UC9 | Create Alert | Pending   |
+| UC10 | Process Price Updates (Kafka) | Pending   |
+| UC11 | Send Alert Notification | Pending   |
+| UC12 | Health Check | Pending   |
+| UC13 | Global Exception Handling | Pending   |
+| UC14 | JUnit Testing | Pending   |
+| UC15 | REST Resource URI Design | Pending   |
 
 ## UC1 – User Registration
 
@@ -113,3 +113,75 @@ POST /api/auth/login
   "password": "StrongPass123"
 }
 ```
+
+### Example Response
+```json
+{
+  "token": "JWT_TOKEN"
+}
+```
+---
+
+## UC3 - Portfolio Creation
+
+### Goal
+Allow users to create a stock portfolio and compute initial investment value using Java 8 Streams.
+
+### Flow
+1. User submits stock list.
+2. Backend calculates the total portfolio value.
+3. Portfolio saved in MySQL/Postgres.
+4. Response returned.
+
+### API Endpoint
+POST /api/portfolios/
+POST /api/portfolios/upload
+
+### Example request
+```json
+{
+  "holdings": [
+    {
+      "ticker": "AAPL",
+      "quantity": 10,
+      "buyingPrice": 150
+    },
+    {
+      "ticker": "TSLA",
+      "quantity": 5,
+      "buyingPrice": 220
+    }
+  ]
+}
+```
+
+### Example Response
+```json
+{
+    "holdings": [
+        {
+            "buyingPrice": 150.0,
+            "id": 7,
+            "quantity": 10,
+            "ticker": "AAPL",
+            "value": 150
+        },
+        {
+            "buyingPrice": 200.0,
+            "id": 8,
+            "quantity": 5,
+            "ticker": "TSLA",
+            "value": 220
+        }
+    ],
+    "id": 4,
+    "totalValue": 2600.0,
+    "user": {
+        "email": "user@email.com",
+        "id": 1,
+        "name": "user_name",
+        "password": "password"
+    }
+}
+```
+---
