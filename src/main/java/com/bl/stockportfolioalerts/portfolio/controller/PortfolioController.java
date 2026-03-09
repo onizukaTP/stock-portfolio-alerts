@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/api/portfolios")
 public class PortfolioController {
@@ -33,5 +36,19 @@ public class PortfolioController {
                         CsvParser.parse(file)
                 )
         );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PortfolioResponse> getPortfolio(@PathVariable Long id) {
+
+        PortfolioResponse response = portfolioService.getPortfolio(id);
+
+        response.add(linkTo(methodOn(PortfolioController.class)
+                .getPortfolio(id)).withSelfRel());
+
+        response.add(linkTo(methodOn(PortfolioController.class)
+                .createPortfolio(null)).withRel("create"));
+
+        return ResponseEntity.ok(response);
     }
 }
