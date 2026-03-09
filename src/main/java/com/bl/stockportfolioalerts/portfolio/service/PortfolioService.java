@@ -3,6 +3,8 @@ package com.bl.stockportfolioalerts.portfolio.service;
 import com.bl.stockportfolioalerts.auth.entity.User;
 import com.bl.stockportfolioalerts.auth.repository.UserRepository;
 import com.bl.stockportfolioalerts.portfolio.dto.HoldingRequest;
+import com.bl.stockportfolioalerts.portfolio.dto.HoldingResponse;
+import com.bl.stockportfolioalerts.portfolio.dto.PortfolioResponse;
 import com.bl.stockportfolioalerts.portfolio.entity.Holding;
 import com.bl.stockportfolioalerts.portfolio.entity.Portfolio;
 import com.bl.stockportfolioalerts.portfolio.repository.PortfolioRepository;
@@ -57,5 +59,37 @@ public class PortfolioService {
         portfolio.setTotalValue(total);
 
         return portfolioRepository.save(portfolio);
+    }
+
+    public PortfolioResponse getPortfolio(Long portfolioId) {
+
+        String email = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Portfolio portfolio = portfolioRepository.findById(portfolioId)
+                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+
+        if (!portfolio.getUser().getEmail().equals(email)) {
+            throw new RuntimeException("Unauthorized access");
+        }
+
+        List<HoldingResponse> holdings = portfolio.getHoldings()
+                .stream()
+                .filter(h -> h.getQuantity() > 0)
+                .map(h -> new HoldingResponse(
+                        h.getTicker(),
+                        h.getQuantity(),
+                        h.getBuyingPrice(),
+                        h.getValue()
+                ))
+                .toList();
+
+        return new PortfolioResponse(
+                portfolio.getId(),
+                portfolio.getTotalValue(),
+                holdings
+        );
     }
 }
