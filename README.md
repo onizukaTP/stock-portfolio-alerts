@@ -185,3 +185,48 @@ POST /api/portfolios/upload
 }
 ```
 ---
+
+## UC4 - Portfolio Retrieval
+
+### Goal
+Retrieve portfolio details with proper REST resource design and filtering.
+
+### Flow
+1. User requests portfolio by ID. 
+2. Backend fetches from DB. 
+3. Applies filtering logic. 
+4. Returns response with HATEOAS links.
+
+### API Endpoint
+GET /api/portfolios/{id}
+
+### Example Response
+```json
+{
+  "portfolioId": 1,
+  "totalValue": 2300,
+  "holdings": [
+    {
+      "ticker": "AAPL",
+      "quantity": 10,
+      "buyingPrice": 150,
+      "value": 1500
+    },
+    {
+      "ticker": "TSLA",
+      "quantity": 2,
+      "buyingPrice": 400,
+      "value": 800
+    }
+  ],
+  "_links": {
+    "self": {
+      "href": "/api/portfolios/1"
+    },
+    "create": {
+      "href": "/api/portfolios"
+    }
+  }
+}
+```
+---
