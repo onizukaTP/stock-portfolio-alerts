@@ -51,4 +51,17 @@ public class PortfolioController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PortfolioResponse> updatePortfolio(
+            @PathVariable Long id,
+            @RequestBody UpdatePortfolioRequest request) {
+
+        PortfolioResponse response = portfolioService.updatePortfolio(id, request);
+
+        response.add(linkTo(methodOn(PortfolioController.class)
+                .getPortfolio(id)).withSelfRel());
+
+        return ResponseEntity.ok(response);
+    }
 }
