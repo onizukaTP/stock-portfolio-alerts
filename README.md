@@ -38,8 +38,8 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC1 | User Registration | Completed |
 | UC2 | JWT Authentication | Completed |
 | UC3 | Portfolio Creation | Completed |
-| UC4 | Portfolio Retrieval | Pending   |
-| UC5 | Update Portfolio | Pending   |
+| UC4 | Portfolio Retrieval | Completed |
+| UC5 | Update Portfolio | Completed |
 | UC6 | Delete Portfolio | Pending   |
 | UC7 | Add Stock | Pending   |
 | UC8 | Fetch Live Stock Price | Pending   |
