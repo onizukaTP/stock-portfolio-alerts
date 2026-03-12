@@ -40,7 +40,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC3 | Portfolio Creation | Completed |
 | UC4 | Portfolio Retrieval | Completed |
 | UC5 | Update Portfolio | Completed |
-| UC6 | Delete Portfolio | Pending   |
+| UC6 | Delete Portfolio | Completed |
 | UC7 | Add Stock | Pending   |
 | UC8 | Fetch Live Stock Price | Pending   |
 | UC9 | Create Alert | Pending   |
@@ -261,4 +261,28 @@ PUT /api/portfolios/update
     }
   ]
 }
+```
+
+## UC6 - Delete Portfolio
+
+### Goal
+Allow an authenticated user to delete an existing portfolio safely while maintaining audit logs using AOP.
+
+### Flow
+1. User sends a DELETE request. 
+2. Backend verifies ownership. 
+3. Portfolio removed from database. 
+4. AOP logs deletion activity. 
+5. Success response returned.
+
+### API Endpoint
+DELETE /api/portfolios/{id}
+
+### Example logs
+```bash
+INFO  API request received to delete portfolio id=3
+INFO  AUDIT: Portfolio deletion attempt detected. portfolioId=3
+INFO  Delete portfolio request received. portfolioId=3, user=user@email.com
+INFO  Portfolio deleted successfully. portfolioId=3, user=user@email.com
+INFO  AUDIT: Portfolio deleted successfully. portfolioId=3
 ```
