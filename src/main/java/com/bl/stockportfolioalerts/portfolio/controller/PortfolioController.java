@@ -3,6 +3,7 @@ package com.bl.stockportfolioalerts.portfolio.controller;
 import com.bl.stockportfolioalerts.portfolio.dto.*;
 import com.bl.stockportfolioalerts.portfolio.service.PortfolioService;
 import com.bl.stockportfolioalerts.portfolio.util.CsvParser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/portfolios")
 public class PortfolioController {
@@ -63,5 +65,15 @@ public class PortfolioController {
                 .getPortfolio(id)).withSelfRel());
 
         return ResponseEntity.ok(response);
+    }
+    ;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePortfolio(@PathVariable Long id) {
+
+        log.info("API request received to delete portfolio id={}", id);
+
+        portfolioService.deletePortfolio(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
