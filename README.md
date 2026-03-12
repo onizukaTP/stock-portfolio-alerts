@@ -230,3 +230,35 @@ GET /api/portfolios/{id}
 }
 ```
 ---
+
+## UC5 - Update Portfolio
+
+### Goal
+Allow modification of the portfolio with transactional safety.
+
+### Flow
+1. User submits update request. 
+2. Backend validates the request. 
+3. @Transactional ensures atomic update. 
+4. DB commit performed.
+
+### API Endpoint
+PUT /api/portfolios/update
+
+### Example Request
+```json
+{
+  "holdings": [
+    {
+      "ticker": "AAPL",
+      "quantity": 20,
+      "buyingPrice": 150
+    },
+    {
+      "ticker": "TSLA",
+      "quantity": 5,
+      "buyingPrice": 220
+    }
+  ]
+}
+```
