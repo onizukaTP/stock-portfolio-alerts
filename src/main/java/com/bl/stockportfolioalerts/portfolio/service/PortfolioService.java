@@ -12,12 +12,14 @@ import com.bl.stockportfolioalerts.portfolio.repository.HoldingRepository;
 import com.bl.stockportfolioalerts.portfolio.repository.PortfolioRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class PortfolioService {
 
@@ -152,5 +154,31 @@ public class PortfolioService {
                 portfolio.getTotalValue(),
                 holdingResponses
         );
+    }
+
+    @Transactional
+    public void deletePortfolio(Long portfolioId) {
+
+        String email = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        log.info("Delete portfolio request received. portfolioId={}, user={}", portfolioId, email);
+
+        Portfolio portfolio = portfolioRepository.findById(portfolioId)
+                .orElseThrow(() -> {
+                    log.error("Portfolio not found. portfolioId={}", portfolioId);
+                    return new RuntimeException("Portfolio not found");
+                });
+
+        if (!portfolio.getUser().getEmail().equals(email)) {
+            log.warn("Unauthorized delete attempt. portfolioId={}, user={}", portfolioId, email);
+            throw new RuntimeException("Unauthorized access");
+        }
+
+        portfolioRepository.delete(portfolio);
+
+        log.info("Portfolio deleted successfully. portfolioId={}, user={}", portfolioId, email);
     }
 }
