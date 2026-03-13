@@ -1,12 +1,15 @@
 package com.bl.stockportfolioalerts.portfolio.controller;
 
 import com.bl.stockportfolioalerts.portfolio.dto.*;
+import com.bl.stockportfolioalerts.portfolio.entity.Portfolio;
 import com.bl.stockportfolioalerts.portfolio.service.PortfolioService;
 import com.bl.stockportfolioalerts.portfolio.util.CsvParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -20,6 +23,13 @@ public class PortfolioController {
 
     public PortfolioController(PortfolioService portfolioService) {
         this.portfolioService = portfolioService;
+    }
+
+    @GetMapping("/showall")
+    public ResponseEntity<List<PortfolioResponse>> getAllPortfolios() {
+        return ResponseEntity.ok(
+                portfolioService.getAllPortfolios()
+        );
     }
 
     @PostMapping
@@ -75,5 +85,18 @@ public class PortfolioController {
         portfolioService.deletePortfolio(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/stocks")
+    public ResponseEntity<PortfolioResponse> addStock(
+            @PathVariable Long id,
+            @RequestBody AddStockRequest request) {
+
+        log.info("API request received to add stock. portfolioId={}, ticker={}",
+                id, request.getTicker());
+
+        PortfolioResponse response = portfolioService.addStock(id, request);
+
+        return ResponseEntity.ok(response);
     }
 }
