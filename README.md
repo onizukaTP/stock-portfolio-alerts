@@ -41,7 +41,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC4 | Portfolio Retrieval | Completed |
 | UC5 | Update Portfolio | Completed |
 | UC6 | Delete Portfolio | Completed |
-| UC7 | Add Stock | Pending   |
+| UC7 | Add Stock | Completed |
 | UC8 | Fetch Live Stock Price | Pending   |
 | UC9 | Create Alert | Pending   |
 | UC10 | Process Price Updates (Kafka) | Pending   |
@@ -285,4 +285,27 @@ INFO  AUDIT: Portfolio deletion attempt detected. portfolioId=3
 INFO  Delete portfolio request received. portfolioId=3, user=user@email.com
 INFO  Portfolio deleted successfully. portfolioId=3, user=user@email.com
 INFO  AUDIT: Portfolio deleted successfully. portfolioId=3
+```
+
+## UC7 - Buy A Stock
+
+### Goal
+Allow users to add new stocks to an existing portfolio and dynamically compute updated values.
+
+### Flow
+1. User sends stock symbol and quantity. 
+2. Backend fetches current price (RestTemplate). 
+3. Holding added to portfolio. 
+4. Portfolio sorted using Comparator. 
+5. Response returned.
+
+### API Endpoints
+POST api/portfolios/{id}/stocks
+
+### Example Request
+```json
+{
+  "ticker": "AAPL",
+  "quantity": 10
+}
 ```
