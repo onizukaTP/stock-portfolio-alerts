@@ -20,7 +20,7 @@ public class StockPriceClient {
 
     @PostConstruct
     public void init() {
-        log.info("Loaded API key: {}", apiKey);
+        log.info("AlphaVantage API key loaded successfully");
     }
 
     public double fetchStockPrice(String ticker) {
@@ -33,14 +33,22 @@ public class StockPriceClient {
 
             String response = restTemplate.getForObject(url, String.class);
 
-            log.info("Stock API response: {}", response);
+            log.debug("Stock API raw response: {}", response);
 
             JsonNode root = objectMapper.readTree(response);
 
-            String price = root
-                    .path("Global Quote")
-                    .path("05. price")
-                    .asText();
+            JsonNode quoteNode = root.path("Global Quote");
+
+            if (quoteNode.isMissingNode() || quoteNode.isEmpty()) {
+                log.warn("Invalid or rate-limited API response for ticker={}", ticker);
+                throw new RuntimeException("Stock API rate limit exceeded");
+            }
+
+            String price = quoteNode.path("05. price").asText();
+
+            if (price == null || price.isEmpty()) {
+                throw new RuntimeException("Invalid stock price received");
+            }
 
             return Double.parseDouble(price);
 
