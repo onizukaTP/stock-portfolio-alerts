@@ -9,6 +9,7 @@ import com.bl.stockportfolioalerts.portfolio.repository.HoldingRepository;
 import com.bl.stockportfolioalerts.portfolio.repository.PortfolioRepository;
 
 import com.bl.stockportfolioalerts.stock.client.StockPriceClient;
+import com.bl.stockportfolioalerts.stock.service.StockPriceService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,15 +27,18 @@ public class PortfolioService {
     private final UserRepository userRepository;
     private final HoldingRepository holdingRepository;
     private final StockPriceClient stockPriceClient;
+    private final StockPriceService stockPriceService;
 
     public PortfolioService(PortfolioRepository portfolioRepository,
                             UserRepository userRepository,
                             HoldingRepository holdingRepository,
-                            StockPriceClient stockPriceClient) {
+                            StockPriceClient stockPriceClient,
+                            StockPriceService stockPriceService) {
         this.portfolioRepository = portfolioRepository;
         this.userRepository = userRepository;
         this.holdingRepository = holdingRepository;
         this.stockPriceClient = stockPriceClient;
+        this.stockPriceService = stockPriceService;
     }
 
     public Portfolio createPortfolio(List<HoldingRequest> holdingRequests) {
@@ -251,7 +255,7 @@ public class PortfolioService {
             throw new RuntimeException("Unauthorized access");
         }
 
-        double price = stockPriceClient.fetchStockPrice(request.getTicker());
+        double price = stockPriceService.getStockPrice(request.getTicker());
 
         Holding holding = new Holding();
         holding.setTicker(request.getTicker());
