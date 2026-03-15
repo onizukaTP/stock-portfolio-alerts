@@ -42,7 +42,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC5 | Update Portfolio | Completed |
 | UC6 | Delete Portfolio | Completed |
 | UC7 | Add Stock | Completed |
-| UC8 | Fetch Live Stock Price | Pending   |
+| UC8 | Fetch Live Stock Price | Completed |
 | UC9 | Create Alert | Pending   |
 | UC10 | Process Price Updates (Kafka) | Pending   |
 | UC11 | Send Alert Notification | Pending   |
@@ -309,3 +309,25 @@ POST api/portfolios/{id}/stocks
   "quantity": 10
 }
 ```
+
+## UC8 - Fetch Live Stock Price
+
+### Goal
+Provide real-time stock price retrieval with caching to improve performance.
+
+### Flow
+1. User requests stock price. 
+2. Backend checks Caffeine cache. 
+3. If not found → fetch from API. 
+4. Cache result. 
+5. Return price.
+
+### API Endpoints
+POST api/portfolios/{id}/stocks
+
+### Example Request
+```json
+{
+  "ticker": "AAPL",
+  "quantity": 10
+}
