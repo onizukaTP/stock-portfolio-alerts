@@ -43,7 +43,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC6 | Delete Portfolio | Completed |
 | UC7 | Add Stock | Completed |
 | UC8 | Fetch Live Stock Price | Completed |
-| UC9 | Create Alert | Pending   |
+| UC9 | Create Alert | Completed |
 | UC10 | Process Price Updates (Kafka) | Pending   |
 | UC11 | Send Alert Notification | Pending   |
 | UC12 | Health Check | Pending   |
@@ -331,3 +331,40 @@ POST api/portfolios/{id}/stocks
   "ticker": "AAPL",
   "quantity": 10
 }
+```
+
+## UC10 - Create Alert
+
+### Goal
+Allow users to create threshold-based stock alerts.
+
+### Flow
+1. User submits alert condition. 
+2. Alert saved in DB. 
+3. Alert event pushed to RabbitMQ queue.
+
+### API Endpoint
+POST /api/alerts
+
+### Example Request
+```json
+{
+  "ticker": "AAPL",
+  "thresholdPrice": 180
+}
+```
+
+### Example Response
+```json
+{
+    "id": 1,
+    "ticker": "AAPL",
+    "thresholdPrice": 180.0,
+    "user": {
+        "id": 1,
+        "name": "user",
+        "email": "user@email.com",
+        "password": "password"
+    }
+}
+```
