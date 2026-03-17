@@ -44,7 +44,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC7 | Add Stock | Completed |
 | UC8 | Fetch Live Stock Price | Completed |
 | UC9 | Create Alert | Completed |
-| UC10 | Process Price Updates (Kafka) | Pending   |
+| UC10 | Process Price Updates (Kafka) | Completed |
 | UC11 | Send Alert Notification | Pending   |
 | UC12 | Health Check | Pending   |
 | UC13 | Global Exception Handling | Pending   |
@@ -368,3 +368,17 @@ POST /api/alerts
     }
 }
 ```
+
+## UC10 - Process Price Updates (Kafka Listener)
+
+### Goal
+Consume live stock price updates and match alerts using Stream API.
+
+### Flow
+1. Kafka receives price event. 
+2. Listener triggered. 
+3. Stream filters matching alerts. 
+4. Notification triggered.
+
+### API Endpoint
+POST /api/alerts
