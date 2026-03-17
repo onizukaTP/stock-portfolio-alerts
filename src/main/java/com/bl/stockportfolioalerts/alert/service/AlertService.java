@@ -21,7 +21,6 @@ public class AlertService {
 
     private final AlertRepository alertRepository;
     private final UserRepository userRepository;
-    private final AlertEventPublisher alertEventPublisher;
 
     public Alert createAlert(CreateAlertRequest request) {
 
@@ -43,15 +42,6 @@ public class AlertService {
 
         log.info("Alert created for ticker={}, threshold={}",
                 request.getTicker(), request.getThresholdPrice());
-
-        AlertEvent event = AlertEvent.builder()
-                .alertId(alert.getId())
-                .ticker(alert.getTicker())
-                .thresholdPrice(alert.getThresholdPrice())
-                .userId(user.getId())
-                .build();
-
-        alertEventPublisher.publishAlertEvent(event);
 
         return alert;
     }
