@@ -45,8 +45,8 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC8 | Fetch Live Stock Price | Completed |
 | UC9 | Create Alert | Completed |
 | UC10 | Process Price Updates (Kafka) | Completed |
-| UC11 | Send Alert Notification | Pending   |
-| UC12 | Health Check | Pending   |
+| UC11 | Send Alert Notification | Completed |
+| UC12 | Health Check | Completed |
 | UC13 | Global Exception Handling | Pending   |
 | UC14 | JUnit Testing | Pending   |
 | UC15 | REST Resource URI Design | Pending   |
@@ -382,3 +382,80 @@ Consume live stock price updates and match alerts using Stream API.
 
 ### API Endpoint
 POST /api/alerts
+
+## UC11 - Send Alert Notification
+
+### Goal
+Send user notification when alert condition is met.
+
+### Flow
+1. Message consumed.
+2. Notification sent (email/SMS/WebSocket).
+3. Log entry created.
+
+### Expected Result
+**Create Alert** POST /api/alerts
+```json
+{
+  "ticker": "AAPL",
+  "thresholdPrice": 180
+}
+```
+
+**Send Kafka event**
+```json
+{
+  "ticker": "AAPL",
+  "price": 200
+}
+```
+
+**Expected Logs**
+```bash
+Kafka Listener:
+Received stock price event ticker=AAPL price=200
+
+Alert Match:
+Alert triggered ticker=AAPL threshold=180
+
+RabbitMQ Publisher:
+Publishing alert event to RabbitMQ
+
+RabbitMQ Consumer:
+Received alert event from RabbitMQ ticker=AAPL threshold=180
+
+Notification:
+NOTIFICATION SENT: Stock AAPL crossed threshold 180.00 
+```
+
+## UC12 - Health Check
+
+### Goal
+Monitor application health and dependencies.
+
+### API Endpoint
+GET /actuator/health
+
+### Example Response
+```json
+{
+  "status": "UP",
+  "components": {
+    "db": {
+      "status": "UP"
+    },
+    "rabbit": {
+      "status": "UP"
+    },
+    "kafka": {
+      "status": "UP"
+    },
+    "diskSpace": {
+      "status": "UP"
+    },
+    "ping": {
+      "status": "UP"
+    }
+  }
+}
+```
