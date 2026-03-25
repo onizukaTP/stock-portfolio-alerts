@@ -27,6 +27,8 @@ public class StockPriceListener {
 
         List<Alert> alerts = alertRepository.findByTicker(event.getTicker());
 
+        log.info("Total alerts found for {} = {}", event.getTicker(), alerts.size());
+
         alerts.stream()
                 .filter(alert -> event.getPrice() > alert.getThresholdPrice())
                 .forEach(alert -> {
