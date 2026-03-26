@@ -48,7 +48,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC11 | Send Alert Notification | Completed |
 | UC12 | Health Check | Completed |
 | UC13 | Global Exception Handling | Completed |
-| UC14 | JUnit Testing | Pending   |
+| UC14 | JUnit Testing | Completed |
 | UC15 | REST Resource URI Design | Pending   |
 
 ## UC1 – User Registration
@@ -476,3 +476,8 @@ GET /api/portfolios/999
   "error": "Portfolio not found"
 }
 ```
+
+## UC14 - JUnit Testing
+
+### Goal
+Ensure API reliability using automated testing.
