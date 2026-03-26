@@ -47,7 +47,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC10 | Process Price Updates (Kafka) | Completed |
 | UC11 | Send Alert Notification | Completed |
 | UC12 | Health Check | Completed |
-| UC13 | Global Exception Handling | Pending   |
+| UC13 | Global Exception Handling | Completed |
 | UC14 | JUnit Testing | Pending   |
 | UC15 | REST Resource URI Design | Pending   |
 
@@ -457,5 +457,22 @@ GET /actuator/health
       "status": "UP"
     }
   }
+}
+```
+
+## UC13 - Global Exception Handling
+
+### Goal
+Handle errors centrally using @ControllerAdvice.
+
+### Example Request
+GET /api/portfolios/999
+
+### Example Response
+```json
+{
+  "timestamp": "2026-03-25T13:15:00",
+  "status": 400,
+  "error": "Portfolio not found"
 }
 ```
