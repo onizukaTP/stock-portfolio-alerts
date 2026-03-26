@@ -45,4 +45,9 @@ public class AlertService {
 
         return alert;
     }
+
+    public Alert getAlert (Long id) {
+        return alertRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alert Not Found"));
+    }
 }
