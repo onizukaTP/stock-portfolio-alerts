@@ -49,7 +49,7 @@ This architecture keeps deployment simple while supporting event-driven workflow
 | UC12 | Health Check | Completed |
 | UC13 | Global Exception Handling | Completed |
 | UC14 | JUnit Testing | Completed |
-| UC15 | REST Resource URI Design | Pending   |
+| UC15 | REST Resource URI Design | Completed |
 
 ## UC1 – User Registration
 
@@ -481,3 +481,8 @@ GET /api/portfolios/999
 
 ### Goal
 Ensure API reliability using automated testing.
+
+## UC15 - REST Resource URI Design
+
+### Goal
+Standardize API endpoints for clarity and scalability.
