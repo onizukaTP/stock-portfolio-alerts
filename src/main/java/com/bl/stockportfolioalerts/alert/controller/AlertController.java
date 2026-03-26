@@ -28,4 +28,9 @@ public class AlertController {
                 alertService.createAlert(request)
         );
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Alert> getAlert(@PathVariable Long id) {
+        return ResponseEntity.ok(alertService.getAlert(id));
+    }
 }
