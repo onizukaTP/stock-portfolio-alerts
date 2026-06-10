@@ -1,0 +1,35 @@
+# ── Maven wrapper cache ───────────────────────────────────────────────────────
+.mvn/repository/
+
+# ── IDE files ─────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.classpath
+*.project
+*.settings/
+
+# ── OS files ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ── Docker files (no need to copy into image) ─────────────────────────────────
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# ── Docs & config not needed at runtime ───────────────────────────────────────
+README.md
+PROJECT_WIKI.md
+*.md
+.env
+
+# ── Test sources (already excluded by -DskipTests, but be explicit) ───────────
+src/test/
