@@ -1,8 +1,16 @@
-# Use Java runtime
-FROM eclipse-temurin:21-jdk
+# ── Runtime only ─────────────────────────────────────────────────────────────
+FROM eclipse-temurin:21-jre-alpine
 
-# Copy jar file
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+WORKDIR /app
+
 COPY target/stockportfolioalerts-0.0.1-SNAPSHOT.jar app.jar
 
-# Run application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+RUN chown appuser:appgroup app.jar
+
+USER appuser
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
