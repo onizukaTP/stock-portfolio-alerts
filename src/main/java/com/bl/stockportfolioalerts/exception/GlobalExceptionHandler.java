@@ -9,15 +9,18 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiErrorResponse> handleRuntimeException(RuntimeException ex) {
+    public ResponseEntity<ApiErrorResponse> handleRuntime(RuntimeException ex) {
+        String message = ex.getMessage();
 
-        ApiErrorResponse response = ApiErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(ex.getMessage())
-                .build();
+        if (message != null && message.contains("rate limit")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(new ApiErrorResponse(
+                            LocalDateTime.now(), 429, "Alpha Vantage rate limit exceeded. Try again later."
+                    ));
+        }
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest()
+                .body(new ApiErrorResponse(LocalDateTime.now(), 400, message));
     }
 
     @ExceptionHandler(Exception.class)
